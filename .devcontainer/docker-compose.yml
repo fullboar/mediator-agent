@@ -6,6 +6,7 @@ networks:
 volumes:
   postgres-data:
 
+
 services:
   redis-1:
     image: redis:7.2.3-alpine
@@ -49,6 +50,7 @@ services:
     working_dir: /work
     volumes:
       - ../:/work
+      - /work/node_modules
     ports:
       - '3110:3110'
     tty: true

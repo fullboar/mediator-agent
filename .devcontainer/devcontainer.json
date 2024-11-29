@@ -6,7 +6,10 @@
 	"service": "mediator",
 	"remoteUser": "node",
 	"workspaceFolder": "/work",
-	"postCreateCommand": "sudo chown node node_modules && sudo corepack enable",
+	"containerEnv": {
+		"COREPACK_ENABLE_STRICT": "1"
+	},
+	"postCreateCommand": "sudo chown node node_modules && sudo sudo corepack enable && yes | corepack prepare yarn@4.3.1 --activate && yes | yarn install --immutable",
 	"features": {
 		"ghcr.io/jckimble/devcontainer-features/ngrok:3": {}
 	},
