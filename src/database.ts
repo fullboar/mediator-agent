@@ -2,7 +2,8 @@ import type { AskarWalletPostgresStorageConfig } from '@credo-ts/askar/build/wal
 import config from './config'
 
 export const askarPostgresConfig: AskarWalletPostgresStorageConfig = {
-  // AskarWalletPostgresStorageConfig defines interface for the Postgres plugin configuration.
+  // AskarWalletPostgresStorageConfig defines interface
+  // for the Postgres plugin configuration.
   type: 'postgres',
   config: {
     host: config.get("db:host") as string,

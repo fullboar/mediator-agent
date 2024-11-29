@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
-import nconf, { use } from 'nconf';
+import nconf from 'nconf';
 import path from 'path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 import { LogLevel } from '@credo-ts/core'
 
 // const dirName = path.dirname(fileURLToPath(import.meta.url));
@@ -19,7 +19,6 @@ if (env === 'development') {
  * and added to the config.
  */
 
-console.log("***************", process.env.AGENT_PORT);
 const agentPort = Number(process.env.AGENT_PORT ?? 3110) ;
 
 // overrides are always as defined
@@ -30,19 +29,20 @@ nconf.overrides({
     password: process.env.POSTGRES_PASSWORD,
     adminUser: process.env.POSTGRES_ADMIN_USER,
     adminPassword: process.env.POSTGRES_ADMIN_PASSWORD,
+    database: process.env.POSTGRES_DATABSE,
   },
   agent: {
     port: agentPort,
-    endpoints: process.env.AGENT_ENDPOINTS ? process.env.AGENT_ENDPOINTS.split(',') : null,
-    name: process.env.AGENT_NAME,
+    endpoints: process.env.AGENT_ENDPOINTS ? process.env.AGENT_ENDPOINTS.split(',') : [ `http://localhost:${agentPort}`, `ws://localhost:${agentPort}`],
+    name: process.env.AGENT_NAME ?? 'My Mediator',
     invitationUrl: process.env.INVITATION_URL,
     logLevel: process.env.LOG_LEVEL ?? LogLevel.debug,
     usePushNotifications: process.env.USE_PUSH_NOTIFICATIONS === 'true',
     notificationWebhookUrl: process.env.NOTIFICATION_WEBHOOK_URL,
   },
   wallet: {
-    name: process.env.WALLET_NAME,
-    key: process.env.WALLET_KEY,
+    name: process.env.WALLET_NAME ?? 'mediator-dev',
+    key: process.env.WALLET_KEY ?? 'blarbzzz',
   }
 });
 
@@ -52,29 +52,12 @@ nconf
   .env()
   .file({ file: path.join(dirName, '../', configFileName) });
 
-// if nothing else is set, use defaults. This will be set if
-// they do not exist in overrides or the config file.
-nconf.defaults({
-  agent: {
-    port: agentPort,
-    endpoints: process.env.AGENT_ENDPOINTS ?? [
-      `http://localhost:${agentPort}`,
-      `ws://localhost:${agentPort}`,
-    ],
-    name: 'My Mediator',
-    logLevel: LogLevel.debug,
-  },
-  wallet: {
-    name: 'mediator-dev',
-    key: 'blarbzzz',
-  }
-});
+// if nothing else is set, use defaults. This will be set
+// if they do not exist in overrides or the config file.
+// nconf.defaults({});
 
 if (env === 'development') {
-  console.log('Agent Configuration:', nconf.get("agent"));
-  console.log('Database Configuration:', nconf.get("db"));
-  console.log('Wallet Configuration:', nconf.get("wallet"));
-  console.log(nconf.get("agent:name"));
+  console.log('Configuration:', nconf.get());
 }
 
 export default nconf;
