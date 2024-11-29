@@ -12,8 +12,8 @@ import { injectable, AgentContext, utils } from '@credo-ts/core'
 import { MessageRecord } from './MessageRecord'
 import { MessageRepository } from './MessageRepository'
 import { PushNotificationsFcmRepository } from '../push-notifications/fcm/repository'
-import { NOTIFICATION_WEBHOOK_URL, USE_PUSH_NOTIFICATIONS } from '../constants'
 import fetch from 'node-fetch'
+import config from '../config'
 
 export interface NotificationMessage {
   messageType: string
@@ -75,7 +75,7 @@ export class StorageServiceMessageQueue implements MessagePickupRepository {
   }
 
   public async addMessage(options: AddMessageOptions) {
-    const { connectionId, payload, messageType } = options
+    const { connectionId, payload } = options
 
     this.agentContext.config.logger.debug(
       `Adding message to queue for connection ${connectionId} with payload ${JSON.stringify(payload)}`
@@ -93,8 +93,8 @@ export class StorageServiceMessageQueue implements MessagePickupRepository {
     )
 
     // Send a notification to the device
-    if (USE_PUSH_NOTIFICATIONS && NOTIFICATION_WEBHOOK_URL) {
-      await this.sendNotification(this.agentContext, connectionId, messageType)
+    if (config.get("agent:usePushNotifications") && config.get("agent:notificationWebhookUrl") ) {
+      await this.sendNotification(this.agentContext, connectionId, "messageType")
     }
 
     return id
@@ -156,7 +156,7 @@ export class StorageServiceMessageQueue implements MessagePickupRepository {
         body: JSON.stringify(body),
       }
 
-      const response = await fetch(NOTIFICATION_WEBHOOK_URL, requestOptions)
+      const response = await fetch(config.get("agent:notificationWebhookUrl"), requestOptions)
 
       if (response.ok) {
         this.agentContext.config.logger.info(`Notification sent successfully`)
