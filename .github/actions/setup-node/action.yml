@@ -12,6 +12,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Add package manager
+      run: |
+        corepack enable yarn@4.3.1 
+
     - name: Setup node v${{ inputs.node-version }}
       uses: actions/setup-node@v3
       with:
