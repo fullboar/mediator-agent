@@ -15,7 +15,7 @@ runs:
     - name: Add package manager
       shell: bash
       run: |
-        corepack enable yarn@4.3.1 
+        corepack enable
 
     - name: Setup node v${{ inputs.node-version }}
       uses: actions/setup-node@v3
