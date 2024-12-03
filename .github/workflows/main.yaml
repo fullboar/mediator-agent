@@ -24,10 +24,10 @@ jobs:
       - name: Setup NodeJS
         uses: ./.github/actions/setup-node
 
-    #   - name: Run tests
-    #     run: |
-    #       pip install -r requirements.txt
-    #       pytest
+      - name: Install dependencies
+        shell: bash
+        run: |
+          yarn install --immutable
 
   build:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
