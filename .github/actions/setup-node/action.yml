@@ -13,6 +13,7 @@ runs:
   using: composite
   steps:
     - name: Add package manager
+      shell: bash
       run: |
         corepack enable yarn@4.3.1 
 
