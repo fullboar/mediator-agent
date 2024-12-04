@@ -1,4 +1,4 @@
-FROM node:20.18-bullseye-slim as base
+FROM node:20.18-bullseye-slim AS base
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -12,40 +12,23 @@ RUN apt-get update -y && \
 # RUN mkdir -p  /tmp/yarn-cache && \
 #   yarn config set cache-folder /tmp/yarn-cache
 
-FROM base as setup
+FROM base AS build
 
 WORKDIR /opt
 
-# Copy root core files
-COPY package.json /opt/package.json
-COPY yarn.lock /opt/yarn.lock
-COPY patches /opt/patches
+COPY src ./src
+COPY tsconfig.json tsconfig.build.json package.json .yarnrc.yml yarn.lock ./
 
 # Run yarn install
-RUN yarn install --immutable
+RUN yarn install --immutable && \
+  yarn run build
 
-COPY tsconfig.build.json /opt/tsconfig.build.json
-COPY . /opt
-
-RUN yarn build
-
-FROM setup as final
+FROM build as final
 
 WORKDIR /opt
 
-COPY --from=setup /opt/build /opt/build
-# COPY --from=setup /tmp/yarn-cache /tmp/yarn-cache
+COPY package.json .yarnrc.yml yarn.lock ./
+COPY --from=build /opt/node_modules ./node_modules
+COPY --from=build /opt/build ./build
 
-# Copy root package files and mediator
-# app package
-
-COPY package.json /opt/package.json
-COPY yarn.lock /opt/yarn.lock
-
-# # Copy patches folder
-COPY patches /opt/patches
-
-RUN yarn install --immutable && \
-  yarn cache clean
-
-# ENTRYPOINT [ "yarn", "start" ]
+ENTRYPOINT [ "yarn", "start" ]

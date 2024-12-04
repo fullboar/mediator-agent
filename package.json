@@ -20,7 +20,9 @@
   },
   "scripts": {
     "test": "jest",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node build/index.js"
   },
   "dependencies": {
     "@credo-ts/askar": "0.5.6",
