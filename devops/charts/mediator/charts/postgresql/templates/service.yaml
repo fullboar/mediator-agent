@@ -4,12 +4,12 @@ kind: Service
 metadata:
   name: {{include "mediator-agent.fullname" .}}
   labels: 
-    app.kubernetes.io/component: mediator
+    app.kubernetes.io/component: postgresql
     {{- include "mediator-agent.labels" . | nindent 4}}
 spec:
   ports:
     - port: {{.Values.service.targetPort}}
       targetPort: {{.Values.service.targetPort}}
       protocol: TCP
-      name: http
+      name: postgres
   selector: {{- include "mediator-agent.selectorLabels" . | nindent 4}}

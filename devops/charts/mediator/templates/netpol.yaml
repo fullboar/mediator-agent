@@ -12,3 +12,30 @@ spec:
     {{- .Values.netpol.ingress | toYaml | nindent 4 }}
   policyTypes:
     - Ingress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{include "mediator-agent.fullname" .}}-postgresql
+  labels: {{- include "mediator-agent.labels" . | nindent 4}}
+  annotations: {{- toYaml .Values.route.annotations | nindent 4}}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: postgresql
+      app.kubernetes.io/instance: shared
+      app.kubernetes.io/name: postgresql
+  ingress:
+    - ports:
+      - protocol: TCP
+        port: 5432
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: agent
+              {{- include "mediator-agent.selectorLabels" . | nindent 14 }}
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.namespace }}
+  policyTypes:
+    - Ingress
