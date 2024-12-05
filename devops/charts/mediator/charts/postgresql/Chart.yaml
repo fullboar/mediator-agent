@@ -1,11 +1,11 @@
 apiVersion: v2
-name: mediator
+name: postgresql
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
-# to be dedployed.
+# to be deployed.
 #
 # Library charts provide useful utilities or functions for the chart developer. They're included as
 # a dependency of application charts to inject those utilities and functions into the rendering
@@ -22,8 +22,3 @@ version: 0.0.1
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "0.0.1"
-
-dependencies:
-- name: postgresql
-  version: 0.0.1  # Or match the version in postgresql/Chart.yaml
-  repository: "file://./charts/postgresql" 
