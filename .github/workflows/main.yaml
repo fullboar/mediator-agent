@@ -39,19 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # - name: Setup NodeJS
-      #   uses: ./.github/actions/setup-node
-
-      # - name: Install dependencies
-      #   shell: bash
-      #   run: |
-      #     yarn install --immutable
-      
-      # - name: Build
-      #   shell: bash
-      #   run: |
-      #     yarn run build
-
       - name: Build Docker image
         uses: ./.github/actions/docker-build
         with:

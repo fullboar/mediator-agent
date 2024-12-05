@@ -1,0 +1,14 @@
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{include "mediator-agent.fullname" .}}-ingress
+  labels: {{- include "mediator-agent.labels" . | nindent 4}}
+  annotations: {{- toYaml .Values.route.annotations | nindent 4}}
+spec:
+  podSelector:
+    matchLabels: {{- include "mediator-agent.selectorLabels" . | nindent 6}}
+  ingress:
+    {{- .Values.netpol.ingress | toYaml | nindent 4 }}
+  policyTypes:
+    - Ingress
