@@ -1,20 +1,4 @@
-<p align="center">
-  <picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656578320/animo-logo-light-no-text_ok9auy.svg">
-   <source media="(prefers-color-scheme: dark)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656578320/animo-logo-dark-no-text_fqqdq9.svg">
-   <img alt="Animo Logo" height="250px" />
-  </picture>
-</p>
-
-<h1 align="center" ><b>Animo Development Mediator</b></h1>
-
-<h4 align="center">Powered by &nbsp; 
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656579715/animo-logo-light-text_cma2yo.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="https://res.cloudinary.com/animo-solutions/image/upload/v1656579715/animo-logo-dark-text_uccvqa.svg">
-    <img alt="Animo Logo" height="12px" />
-  </picture>
-</h4><br>
+<h1 align="center" ><b>BC Wallet Mediator</b></h1>
 
 <!-- TODO: Add relevant badges, like CI/CD, license, codecov, etc. -->
 
@@ -27,23 +11,6 @@
   </a>
 </p>
 
-<p align="center">
-  <a href="#getting-started">Getting started</a> 
-  &nbsp;|&nbsp;
-  <a href="#environment-variables">Environment Variables</a> 
-  &nbsp;|&nbsp;
-  <a href="#postgres-database">Postgres Database</a> 
-  &nbsp;|&nbsp;
-  <a href="#using-docker">Using Docker</a> 
-  &nbsp;|&nbsp;
-  <a href="#roadmap">Roadmap</a> 
-  &nbsp;|&nbsp;
-  <a href="#how-to-contribute">How To Contribute</a> 
-  &nbsp;|&nbsp;
-  <a href="#license">License</a> 
-</p>
-
-2024-12-06 17:06:48.058 UTC [58] LOG:  unexpected EOF on client connection with an open transaction
 ---
 
 This repo contains a [Mediator](https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0046-mediators-and-relays/README.md) Agent for usage with [Hyperledger Aries and DIDComm v1 agents](https://github.com/hyperledger/aries-rfcs/tree/main/concepts/0004-agents). It is built using [Aries Framework JavaScript](https://github.com/hyperledger/aries-framework-javascript).
@@ -55,18 +22,21 @@ Why should you use this mediator?
 - Configured to persist queued messages for recipient in a postgres.
 - Use the pre-built docker image for easy deployment of your mediator.
 
-> **Warning**
-> The repository is marked as the Animo **Development** Mediator because we have primarily used this repository for the publicly hosted Animo Development Mediator. There's nothing preventing it to be used in a production scenario, but it might needs some tweaks to make it production ready. We welcome contributions that work towards this effort, and we will try to make this repository more production ready in the future.
-
 ## Getting Started
 
 > If you want to deploy the mediator based on the pre-built docker image, please see the [Using Docker](#using-docker) section.
 
-Install dependencies:
+### Development
+
+For development work the mediator agent can be run locally. However, it is recommended to use the accompanying `devContainer` as it will provide a PostgreSQL database and a mediator agent.
 
 ```bash
 yarn install
 ```
+
+** Pro Tip 🤓: ** If you don't have yarn installed, you can install it using npm. If you're on a Linux system make sure "corepack" is enabled becase this depends on yarn ^4.0.0.
+
+Copy the `.env.example` file to `.env` replacing the values with your own. The `AGENT_ENDPOINTS` variable should be populated with an endpoint accessible by other agents. If this is a local development environment, you can use `http://localhost:3110,ws://localhost:3110`. If you need to expose the mediator to the internet, you can use a service like [ngrok](https://ngrok.com/).
 
 And run dev to start the development server:
 
@@ -74,9 +44,19 @@ And run dev to start the development server:
 yarn dev
 ```
 
-In development, the `dev.ts` script will be used which will automatically set up an ngrok tunnel for you and start the mediator agent with some default values. There's no need to configure any environment variables.
+** Pro Tip 🤓: ** If you are not using PostgreSQL for local development a SQLite will be used. It will create a directory called `~/.aft` where the wallet is stored. If your endpoints or wallet key changes you should delete this directory and allow the mediator to re-create it.
 
-To start the server in production, you can run the following command. Make sure to set the environment variables as described below.
+### Production
+
+To start the server in production, you can run the following commands. Make sure to set the environment variables as described below.
+
+Transpile the TypeScript code to JavaScript so that it can be run with a typical `node` command:
+
+```bash
+yarn build
+```
+
+Run the agent using the following command:
 
 ```bash
 yarn start
@@ -89,7 +69,9 @@ After the agent is started, a multi-use invitation will be printed to the consol
 When you've correctly started the mediator agent, and have extracted the invitation from the console, you can use the invitation to connect to the mediator agent. To connect to the mediator and start receiving messages, there's a few steps that need to be taken:
 
 1. Connect to the mediator from another agent using the created [Out Of Band Invitation](https://github.com/hyperledger/aries-rfcs/blob/main/features/0434-outofband/README.md)
+
 2. Request mediation from the mediator using the [Mediator Coordination Protocol](https://github.com/hyperledger/aries-rfcs/tree/main/features/0211-route-coordination).
+
 3. Start picking up messages implicitly by connecting using a WebSocket and sending any DIDComm message to authenticate, the [Pickup V1 Protocol](https://github.com/hyperledger/aries-rfcs/tree/main/features/0212-pickup), or the [Pickup V2 Protocol](https://github.com/hyperledger/aries-rfcs/tree/main/features/0685-pickup-v2). We recommend using the Pickup V2 Protocol.
 
 If you're using an Aries Framework JavaScript agent as the client, you can follow the [Mediation Tutorial](https://aries.js.org/guides/next/tutorials/mediation) from the Aries Framework JavaScript docs. Please note, the tutorial points to the `next` version, which is for `0.4.0` at the time of writing. If the link stops working, please check the `0.4.0` docs for the tutorial.
@@ -98,66 +80,30 @@ If you're using an Aries Framework JavaScript agent as the client, you can follo
 
 You can provide a number of environment variables to run the agent. The following table lists the environment variables that can be used.
 
-The `POSTGRES_` variables won't be used in development mode (`NODE_ENV=development`), but are required when `NODE_ENV` is `production`. This makes local development easier, but makes sure you have a persistent database when deploying.
+## Environment Variables
 
-| Variable                  | Description                                                                                                                                                                                                                                                                       |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AGENT_ENDPOINTS`         | Comma separated list of endpoints, in order of preference. In most cases you want to provide two endpoints, where the first one is an HTTP url, and the second one is an WebSocket url                                                                                            |
-| `AGENT_NAME`              | The name of the agent. This will be used in invitations and will be publicly advertised.                                                                                                                                                                                          |
-| `AGENT_PORT`              | The port that is exposed for incoming traffic. Both the HTTP and WS inbound transport handlers are exposes on this port, and HTTP traffic will be upgraded to the WebSocket server when applicable.                                                                               |
-| `WALLET_NAME`             | The name of the wallet to use.                                                                                                                                                                                                                                                    |
-| `WALLET_KEY`              | The key to unlock the wallet.                                                                                                                                                                                                                                                     |
-| `INVITATION_URL`          | Optional URL that can be used as the base for the invitation url. This would allow you to render a certain web page that can extract the invitation form the `oob` parameter, and show the QR code, or show useful information to the end-user. Less applicable to mediator URLs. |
-| `POSTGRES_HOST`           | Host of the database to use. Should include both host and port.                                                                                                                                                                                                                   |
-| `POSTGRES_USER`           | The postgres user.                                                                                                                                                                                                                                                                |
-| `POSTGRES_PASSWORD`       | The postgres password.                                                                                                                                                                                                                                                            |
-| `POSTGRES_ADMIN_USER`     | The postgres admin user.                                                                                                                                                                                                                                                          |
-| `POSTGRES_ADMIN_PASSWORD` | The postgres admin password.                                                                                                                                                                                                                                                      |
+You can provide a number of environment variables to run the agent. The following table lists the environment variables that can be used.
 
-## Postgres Database
-
-To deploy the mediator, a postgres database is required. Any postgres database will do. The mediator deployed to `https://mediator.dev.animo.id` is deployed to a DigitalOcean managed postgres database.
-
-1. Create a postgres database and make sure it is publicly exposed.
-2. Set the `POSTGRES_HOST`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_ADMIN_USER`, `POSTGRES_ADMIN_PASSWORD` variables. For the mediator we use the same username and password for the admin user and the regular user, but you might want to create a separate user for the admin user.
+| Variable                   | Description                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `AGENT_ENDPOINTS`          | Comma-separated list of endpoints for the agent (e.g., `http://localhost:3110,ws://localhost:3110`). |
+| `AGENT_NAME`               | Name of the agent.                                                                                   |
+| `AGENT_PORT`               | Port on which the agent will run.                                                                    |
+| `WALLET_NAME`              | Name of the wallet. Will also be database name.                                                      |
+| `WALLET_KEY`               | Secret key for the wallet.                                                                           |
+| `POSTGRES_HOST`            | Host of the PostgreSQL database.                                                                     |
+| `POSTGRES_USER`            | Username for the PostgreSQL database.                                                                |
+| `POSTGRES_PASSWORD`        | Password for the PostgreSQL database.                                                                |
+| `POSTGRES_ADMIN_USER`      | Admin username for the PostgreSQL database.                                                          |
+| `POSTGRES_ADMIN_PASSWORD`  | Admin password for the PostgreSQL database.                                                          |
+| `USE_PUSH_NOTIFICATIONS`   | Enable or disable push notifications (`true` or `false`).                                            |
+| `NOTIFICATION_WEBHOOK_URL` | URL for the notification webhook.                                                                    |
 
 ## Using Docker
 
-### Using the pre-built Docker Image
+The mediator agent can be run using the pre-built docker image. The docker image is available on [GitHub Packages](https://github.com/fullboar/mediator-agent/pkgs/container/mediator-agent%2Fmediator).
 
-1. Make sure you're [authenticated to the Github Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
-2. Run the docker image using the following command:
-
-```sh
-docker run \
-  -e "AGENT_ENDPOINTS=http://localhost:3000,ws://localhost:3000" \
-  -e "WALLET_KEY=<your-wallet-key>" \
-  -e "WALLET_NAME=mediator" \
-  -e "AGENT_NAME=Mediator" \
-  -e "AGENT_PORT=3000" \
-  -e "POSTGRES_HOST=mediator-database-xxxx.ondigitalocean.com:25060" \
-  -e "POSTGRES_USER=postgres" \
-  -e "POSTGRES_PASSWORD=<your-postgres-password>" \
-  -e "POSTGRES_ADMIN_USER=postgres" \
-  -e "POSTGRES_ADMIN_PASSWORD=<your-postgres-password>" \
-  -p 3000:3000 \
-  ghcr.io/animo/animo-mediator:latest
-```
-
-Make sure to use the correct tag. By default `latest` will be used which can have unexpected breakage. See the releases for the latest stable tag. Currently the last released tag is ![GitHub release (latest by date)](https://img.shields.io/github/v/release/animo/animo-mediator?display_name=tag&label=tag)
-
-You can also adapt the `docker-compose.yml` file to your needs.
-
-### Building the Docker Image
-
-You can build the docker image using the following command:
-
-```
-docker build \
-   -t ghcr.io/animo/animo-mediator \
-   -f Dockerfile \
-   .
-```
+There is an accompanying `docker-compose.yml` file in the `.devContainer` that can be used to run the mediator agent and a PostgreSQL database. The `Dockerfile` in the root of the repository can be used to build the docker image for production deployments.
 
 ## Roadmap
 
@@ -175,6 +121,18 @@ You're welcome to contribute to this repository. Please make sure to open an iss
 
 This mediator is open source and you're more than welcome to customize and use it to create your own mediator.
 
+All commits must contain a `Signed-off-by` line in the commit message (`git commit -s`). This line certifies that you wrote the patch or otherwise have the right to contribute the material. The full Developer Certificate of Origin text is at the bottom of this README.
+
 ## License
 
 The Animo Mediator is licensed under the Apache License Version 2.0 (Apache-2.0).
+
+## Troubleshooting
+
+If you are running in produciton and see this in the Agent logs:
+
+```bash
+2024-12-06 17:06:48.058 UTC [58] LOG:  unexpected EOF on client connection with an open transaction
+```
+
+You are probably providing too little resources to the Agent. Increase the memory first, then the CPU if that fails.
