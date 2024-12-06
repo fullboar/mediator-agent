@@ -127,6 +127,10 @@ All commits must contain a `Signed-off-by` line in the commit message (`git comm
 
 The Animo Mediator is licensed under the Apache License Version 2.0 (Apache-2.0).
 
+## Attribution
+
+This project is based on the work of the [Animo Mediator](https://github.com/animo/animo-mediator) and subsequent contributions to the [credebl Mediator Agent](https://github.com/credebl/mediator-agent).
+
 ## Troubleshooting
 
 If you are running in produciton and see this in the Agent logs:
