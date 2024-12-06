@@ -1,11 +1,13 @@
-# Mediator Agent
+<p align="center">
+
+<h1>Mediator Agent</h1>
 
 <!-- TODO: Add relevant badges, like CI/CD, license, codecov, etc. -->
 
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://typescriptlang.org)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/animo/animo-mediator?display_name=tag&label=docker%20tag)](https://github.com/animo/animo-mediator/pkgs/container/animo-mediator)
 
----
+</p>
 
 This repo contains a [Mediator](https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0046-mediators-and-relays/README.md) Agent for usage with [Hyperledger Aries and DIDComm v1 agents](https://github.com/hyperledger/aries-rfcs/tree/main/concepts/0004-agents). It is built using [Aries Framework JavaScript](https://github.com/hyperledger/aries-framework-javascript).
 
