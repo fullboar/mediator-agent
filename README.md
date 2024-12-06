@@ -1,4 +1,4 @@
-<h1 align="center" ><b>BC Wallet Mediator</b></h1>
+# Mediator Agent
 
 <!-- TODO: Add relevant badges, like CI/CD, license, codecov, etc. -->
 
