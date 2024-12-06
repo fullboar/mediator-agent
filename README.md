@@ -34,7 +34,7 @@ For development work the mediator agent can be run locally. However, it is recom
 yarn install
 ```
 
-** Pro Tip 🤓: ** If you don't have yarn installed, you can install it using npm. If you're on a Linux system make sure "corepack" is enabled becase this depends on yarn ^4.0.0.
+**Pro Tip 🤓:** If you don't have yarn installed, you can install it using npm. If you're on a Linux system make sure "corepack" is enabled becase this depends on yarn ^4.0.0.
 
 Copy the `.env.example` file to `.env` replacing the values with your own. The `AGENT_ENDPOINTS` variable should be populated with an endpoint accessible by other agents. If this is a local development environment, you can use `http://localhost:3110,ws://localhost:3110`. If you need to expose the mediator to the internet, you can use a service like [ngrok](https://ngrok.com/).
 
@@ -44,7 +44,7 @@ And run dev to start the development server:
 yarn dev
 ```
 
-** Pro Tip 🤓: ** If you are not using PostgreSQL for local development a SQLite will be used. It will create a directory called `~/.aft` where the wallet is stored. If your endpoints or wallet key changes you should delete this directory and allow the mediator to re-create it.
+**Pro Tip 🤓:** If you are not using PostgreSQL for local development a SQLite will be used. It will create a directory called `~/.aft` where the wallet is stored. If your endpoints or wallet key changes you should delete this directory and allow the mediator to re-create it.
 
 ### Production
 
