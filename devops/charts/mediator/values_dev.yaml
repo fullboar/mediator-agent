@@ -26,7 +26,7 @@ netpol:
               kubernetes.io/metadata.name: c2a2c4-dev
 
 env:
-  AGENT_ENDPOINTS: 'https://mediator.thelobby.ca,wss://mediator.thelobby.ca'
+  AGENT_ENDPOINTS: 'https://mediator-c2a2c4-dev.apps.silver.devops.gov.bc.ca,wss://mediator-c2a2c4-dev.apps.silver.devops.gov.bc.ca '
   POSTGRES_HOST:
   # POSTGRES_DATABSE: mediator
   AGENT_NAME: "BC Credo Mediator Dev"
@@ -48,8 +48,10 @@ resources:
 imagePullSecrets:
   - name: artifactory-regcred
 
-service:
-  targetPort: 3110
+services:
+  agent:
+    - name: http
+      port: 3110
 
 route:
   host: ""

@@ -8,8 +8,10 @@ metadata:
     {{- include "mediator-agent.labels" . | nindent 4}}
 spec:
   ports:
-    - port: {{.Values.service.targetPort}}
-      targetPort: {{.Values.service.targetPort}}
+    {{- range $name, $port := .Values.services.agent }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .port }}
       protocol: TCP
-      name: http
+    {{- end }}
   selector: {{- include "mediator-agent.selectorLabels" . | nindent 4}}

@@ -38,19 +38,21 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: 3110
-              name: http
+            {{- range $name, $port := .Values.services.agent }}
+            - name: {{ .name }}
+              containerPort: {{ .port }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 90
+            initialDelaySeconds: 45
             periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 90
+            initialDelaySeconds: 45
             timeoutSeconds: 3
           envFrom:
             - secretRef:
