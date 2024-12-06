@@ -43,6 +43,7 @@
   <a href="#license">License</a> 
 </p>
 
+2024-12-06 17:06:48.058 UTC [58] LOG:  unexpected EOF on client connection with an open transaction
 ---
 
 This repo contains a [Mediator](https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0046-mediators-and-relays/README.md) Agent for usage with [Hyperledger Aries and DIDComm v1 agents](https://github.com/hyperledger/aries-rfcs/tree/main/concepts/0004-agents). It is built using [Aries Framework JavaScript](https://github.com/hyperledger/aries-framework-javascript).
