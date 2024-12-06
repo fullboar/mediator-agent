@@ -44,7 +44,7 @@ And run dev to start the development server:
 yarn dev
 ```
 
-**Pro Tip 🤓:** If you are not using PostgreSQL for local development a SQLite will be used. It will create a directory called `~/.aft` where the wallet is stored. If your endpoints or wallet key changes you should delete this directory and allow the mediator to re-create it.
+**Pro Tip 🤓:** If you are not using PostgreSQL for local development a SQLite will be used. It will create a directory called `~/.afj` where the wallet is stored. If your endpoints or wallet key changes you should delete this directory and allow the mediator to re-create it.
 
 ### Production
 
