@@ -14,7 +14,7 @@ image:
   pullPolicy: Always
   registry: artifacts.developer.gov.bc.ca/docker-remote
   repository: postgres
-  tag: "16"
+  tag: "13"
 
 netpol:
   ingress:
@@ -28,7 +28,7 @@ resources:
     memory: 92Mi
     cpu: 20m
   limits:
-    memory: 128Mi
+    memory: 92Mi
     cpu: 100m
 
 imagePullSecrets:
@@ -37,5 +37,5 @@ imagePullSecrets:
 service:
   targetPort: 5432
 
-env:
-  POSTGRES_DATABSE: mediator
+# env:
+#   POSTGRES_DATABSE: mediator

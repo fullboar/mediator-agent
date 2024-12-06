@@ -29,7 +29,7 @@ nconf.overrides({
     password: process.env.POSTGRES_PASSWORD,
     adminUser: process.env.POSTGRES_ADMIN_USER,
     adminPassword: process.env.POSTGRES_ADMIN_PASSWORD,
-    database: process.env.POSTGRES_DATABSE,
+    // database: process.env.POSTGRES_DATABSE,
   },
   agent: {
     port: agentPort,

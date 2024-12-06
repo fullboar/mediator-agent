@@ -28,7 +28,7 @@ netpol:
 env:
   AGENT_ENDPOINTS: 'https://mediator.thelobby.ca,wss://mediator.thelobby.ca'
   POSTGRES_HOST:
-  POSTGRES_DATABSE: mediator
+  # POSTGRES_DATABSE: mediator
   AGENT_NAME: "BC Credo Mediator Dev"
   INVITATION_URL: "https://mediator.thelobby.ca/invitation"
   LOG_LEVEL: debug
@@ -39,10 +39,10 @@ env:
 
 resources:
   requests:
-    memory: 92Mi
-    cpu: 10m
+    memory: 256Mi
+    cpu: 20m
   limits:
-    memory: 128Mi
+    memory: 256Mi
     cpu: 100m
 
 imagePullSecrets:

@@ -50,9 +50,6 @@ spec:
             - containerPort: {{.Values.service.targetPort}}
               name: postgres
               protocol: TCP
-          env:
-            - name: POSTGRES_DATABSE
-              value: {{.Values.env.POSTGRES_DATABSE}}
           envFrom:
             - secretRef:
                 name: {{ include "mediator-agent.fullname" . }}-creds

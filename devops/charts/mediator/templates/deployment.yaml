@@ -50,7 +50,7 @@ spec:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 90
             timeoutSeconds: 3
           envFrom:
             - secretRef:
@@ -60,8 +60,6 @@ spec:
               value: {{.Values.env.AGENT_ENDPOINTS | quote}}
             - name: POSTGRES_HOST
               value: mediator-postgresql.{{ .Values.namespace }}.svc
-            - name: POSTGRES_DATABSE
-              value: {{.Values.env.POSTGRES_DATABSE | quote}}
             - name: AGENT_NAME
               value: {{.Values.env.AGENT_NAME | quote}}
             - name: INVITATION_URL
