@@ -129,7 +129,7 @@ The Animo Mediator is licensed under the Apache License Version 2.0 (Apache-2.0)
 
 ## Attribution
 
-This project is based on the work of the [Animo Mediator](https://github.com/animo/animo-mediator) and subsequent contributions to the [credebl Mediator Agent](https://github.com/credebl/mediator-agent).
+This project is based on the work of the [Animo Mediator](https://github.com/animo/animo-mediator) and subsequent contributions to the [Credebl Mediator Agent](https://github.com/credebl/mediator-agent).
 
 ## Troubleshooting
 
