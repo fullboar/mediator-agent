@@ -2,14 +2,8 @@
 
 <!-- TODO: Add relevant badges, like CI/CD, license, codecov, etc. -->
 
-<p align="center">
-  <a href="https://typescriptlang.org">
-    <img src="https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg" />
-  </a>
-  <a href="https://github.com/animo/animo-mediator/pkgs/container/animo-mediator">
-    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/animo/animo-mediator?display_name=tag&label=docker%20tag">
-  </a>
-</p>
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://typescriptlang.org)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/animo/animo-mediator?display_name=tag&label=docker%20tag)](https://github.com/animo/animo-mediator/pkgs/container/animo-mediator)
 
 ---
 
