@@ -1,6 +1,6 @@
-<p align="center">
+<h1 align="center" ><b>Animo Development Mediator</b></h1>
 
-<h1>Mediator Agent</h1>
+<p align="center">
 
 <!-- TODO: Add relevant badges, like CI/CD, license, codecov, etc. -->
 
