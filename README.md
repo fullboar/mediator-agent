@@ -77,10 +77,6 @@ If you're using an Aries Framework JavaScript agent as the client, you can follo
 
 You can provide a number of environment variables to run the agent. The following table lists the environment variables that can be used.
 
-## Environment Variables
-
-You can provide a number of environment variables to run the agent. The following table lists the environment variables that can be used.
-
 | Variable                   | Description                                                                                          |
 | -------------------------- | ---------------------------------------------------------------------------------------------------- |
 | `AGENT_ENDPOINTS`          | Comma-separated list of endpoints for the agent (e.g., `http://localhost:3110,ws://localhost:3110`). |
