@@ -16,7 +16,7 @@ image:
   # registry: ghcr.io
   repository: fullboar/mediator-agent/mediator
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "5f398b"
+  tag: "75f398b"
 
 netpol:
   ingress:
@@ -27,6 +27,15 @@ netpol:
 
 env:
   AGENT_ENDPOINTS: 'https://mediator.thelobby.ca,wss://mediator.thelobby.ca'
+  POSTGRES_HOST:
+  POSTGRES_DATABSE: mediator
+  AGENT_NAME: "BC Credo Mediator Dev"
+  INVITATION_URL: "https://mediator.thelobby.ca/invitation"
+  LOG_LEVEL: debug
+  USE_PUSH_NOTIFICATIONS: false
+  NOTIFICATION_WEBHOOK_URL: null
+  WALLET_NAME: mediator-dev
+  WALLET_KEY: blarbzzz
 
 resources:
   requests:

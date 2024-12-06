@@ -7,6 +7,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: netapp-file-standard
   resources:
     requests:
-      storage: 1Gi
+      storage: 128Mi
+

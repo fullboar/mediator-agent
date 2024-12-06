@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: {{include "mediator-agent.fullname" .}}
   labels: {{- include "mediator-agent.labels" . | nindent 4}}
+#Error: EACCES: permission denied, mkdir '/.cache/node/corepack/v1'
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -28,9 +29,9 @@ spec:
       imagePullSecrets:
         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: postgres-data
+        - name: cache-volume
+          emptyDir:
+            sizeLimit: 1Gi
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -43,7 +44,7 @@ spec:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 90
             periodSeconds: 3
           readinessProbe:
             httpGet:
@@ -53,7 +54,28 @@ spec:
             timeoutSeconds: 3
           envFrom:
             - secretRef:
-                name: {{ include "mediator-agent.fullname" . }}-postgres-creds
+                name: {{ include "mediator-agent.fullname" . }}-postgresql-creds
           env:
             - name: AGENT_ENDPOINTS
               value: {{.Values.env.AGENT_ENDPOINTS | quote}}
+            - name: POSTGRES_HOST
+              value: mediator-postgresql.{{ .Values.namespace }}.svc
+            - name: POSTGRES_DATABSE
+              value: {{.Values.env.POSTGRES_DATABSE | quote}}
+            - name: AGENT_NAME
+              value: {{.Values.env.AGENT_NAME | quote}}
+            - name: INVITATION_URL
+              value: {{.Values.env.INVITATION_URL | quote}}
+            - name: LOG_LEVEL
+              value: {{.Values.env.LOG_LEVEL | quote}}
+            - name: USE_PUSH_NOTIFICATIONS
+              value: {{.Values.env.USE_PUSH_NOTIFICATIONS | quote}}
+            - name: NOTIFICATION_WEBHOOK_URL
+              value: {{.Values.env.NOTIFICATION_WEBHOOK_URL | quote}} 
+            - name: WALLET_NAME
+              value: {{.Values.env.WALLET_NAME | quote}}
+            - name: WALLET_KEY
+              value: {{.Values.env.WALLET_KEY | quote}}
+          volumeMounts:
+            - name: cache-volume
+              mountPath: /.cache

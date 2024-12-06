@@ -31,18 +31,28 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "mediator-agent.fullname" . }}-data
+      # initContainers:
+      #   - name: pgsql-data-permission-fix
+      #     image: artifacts.developer.gov.bc.ca/docker-remote/busybox:latest
+      #     command: ["/bin/chmod", "-R", "777", "/data"]
+      #     volumeMounts:
+      #       - name: data
+      #         mountPath: /data
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           volumeMounts:
             - name: data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
             - containerPort: {{.Values.service.targetPort}}
               name: postgres
               protocol: TCP
+          env:
+            - name: POSTGRES_DATABSE
+              value: {{.Values.env.POSTGRES_DATABSE}}
           envFrom:
             - secretRef:
                 name: {{ include "mediator-agent.fullname" . }}-creds

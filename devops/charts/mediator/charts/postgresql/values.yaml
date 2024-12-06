@@ -12,9 +12,9 @@ podLabels: {}
 
 image:
   pullPolicy: Always
-  registry: artifacts.developer.gov.bc.ca/github-docker-remote
+  registry: artifacts.developer.gov.bc.ca/docker-remote
   repository: postgres
-  tag: "13"
+  tag: "16"
 
 netpol:
   ingress:
@@ -36,3 +36,6 @@ imagePullSecrets:
 
 service:
   targetPort: 5432
+
+env:
+  POSTGRES_DATABSE: mediator

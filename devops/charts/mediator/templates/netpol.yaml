@@ -16,14 +16,14 @@ spec:
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: {{include "mediator-agent.fullname" .}}-postgresql
+  name: {{include "mediator-agent.fullname" .}}-postgres
   labels: {{- include "mediator-agent.labels" . | nindent 4}}
   annotations: {{- toYaml .Values.route.annotations | nindent 4}}
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/component: postgresql
-      app.kubernetes.io/instance: shared
+      app.kubernetes.io/component: postgres
+      app.kubernetes.io/instance: mediator
       app.kubernetes.io/name: postgresql
   ingress:
     - ports:
