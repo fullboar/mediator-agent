@@ -57,6 +57,8 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "mediator-agent.fullname" . }}-postgresql-creds
+            - secretRef:
+                name: {{ include "mediator-agent.fullname" . }}-creds
           env:
             - name: AGENT_ENDPOINTS
               value: {{.Values.env.AGENT_ENDPOINTS | quote}}
@@ -72,10 +74,6 @@ spec:
               value: {{.Values.env.USE_PUSH_NOTIFICATIONS | quote}}
             - name: NOTIFICATION_WEBHOOK_URL
               value: {{.Values.env.NOTIFICATION_WEBHOOK_URL | quote}} 
-            - name: WALLET_NAME
-              value: {{.Values.env.WALLET_NAME | quote}}
-            - name: WALLET_KEY
-              value: {{.Values.env.WALLET_KEY | quote}}
           volumeMounts:
             - name: cache-volume
               mountPath: /.cache

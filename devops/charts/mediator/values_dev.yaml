@@ -27,15 +27,11 @@ netpol:
 
 env:
   AGENT_ENDPOINTS: 'https://mediator-c2a2c4-dev.apps.silver.devops.gov.bc.ca,wss://mediator-c2a2c4-dev.apps.silver.devops.gov.bc.ca '
-  POSTGRES_HOST:
-  # POSTGRES_DATABSE: mediator
-  AGENT_NAME: "BC Credo Mediator Dev"
-  INVITATION_URL: "https://mediator.thelobby.ca/invitation"
+  AGENT_NAME: "BC Mediator Dev"
+  INVITATION_URL: "https://mediator-c2a2c4-dev.apps.silver.devops.gov.bc.ca/invitation"
   LOG_LEVEL: debug
   USE_PUSH_NOTIFICATIONS: false
   NOTIFICATION_WEBHOOK_URL: null
-  WALLET_NAME: mediator-dev
-  WALLET_KEY: blarbzzz
 
 resources:
   requests:
